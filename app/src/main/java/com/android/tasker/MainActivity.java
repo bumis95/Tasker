@@ -118,8 +118,7 @@ public class MainActivity extends AppCompatActivity {
         startDate = QueryPreferences.getDateQuery(getApplicationContext());
 
         if(currentDay == 0) {
-            updateTitle();
-            updateDate();
+            update();
         }
         else
             checkCondition();
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     currentDay++;
                     QueryPreferences.setDayQuery(getApplicationContext(), currentDay);
                     mViewInfo.setText(R.string.tasksComplete);
-                    updateTitle();
+                    update();
                     cancelCheckBoxes();
                     mFloatingActionButton.setEnabled(false);
                 }
@@ -213,8 +212,7 @@ public class MainActivity extends AppCompatActivity {
         QueryPreferences.setNumberOfDaysQuery(getApplicationContext(), lastDay);
         QueryPreferences.setDateQuery(getApplicationContext(), startDate);
         mViewInfo.setText(R.string.infoNotComplete);
-        updateTitle();
-        updateDate();
+        update();
         cancelCheckBoxes();
         mFloatingActionButton.setEnabled(true);
         invalidateOptionsMenu();
@@ -226,8 +224,7 @@ public class MainActivity extends AppCompatActivity {
         QueryPreferences.setNumberOfDaysQuery(getApplicationContext(), currentDay);
         QueryPreferences.setDateQuery(getApplicationContext(), "");
         mViewInfo.setText("");
-        updateTitle();
-        updateDate();
+        update();
         cancelCheckBoxes();
         mFloatingActionButton.setEnabled(false);
         invalidateOptionsMenu();
@@ -271,8 +268,7 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
         }
         else {
-            updateTitle();
-            updateDate();
+            update();
             mViewInfo.setText(R.string.infoComplete);
             if(calendarNow.equals(calendarStart)) {
                 mFloatingActionButton.setEnabled(true);
@@ -281,18 +277,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void updateTitle() {
-        if (currentDay == 0)
+    public void update() {
+        if (currentDay == 0) {
             mWhatDayToday.setText(R.string.notStart);
-        else if(currentDay <= lastDay)
-            mWhatDayToday.setText(getString(R.string.day, currentDay, lastDay));
-    }
-
-    public void updateDate() {
-        if(currentDay == 0)
             mDate.setText("");
-        else if(currentDay > 0)
+        }
+        else if(currentDay <= lastDay) {
+            mWhatDayToday.setText(getString(R.string.day, currentDay, lastDay));
             mDate.setText(getString(R.string.dateStart, startDate));
+        }
     }
 
 }
