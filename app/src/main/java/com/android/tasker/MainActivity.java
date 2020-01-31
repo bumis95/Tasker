@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private int lastDay;
     private String startDate = "";
 
+    //Challenge challenge = new Challenge();
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -206,6 +208,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firstRun() {
+
+//        Challenge challenge = new Challenge();
+//        challenge.setCurrentDay(1);
+//        challenge.setLastDay(lastDay);
+//        challenge.setStartDate(new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTime()));
+
         currentDay = 1;
         startDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTime());
         QueryPreferences.setDayQuery(getApplicationContext(), currentDay);
