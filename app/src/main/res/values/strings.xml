@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Tasker</string>
+
+    <string name="main_tasks">Основные задачи:</string>
+    <string name="task1">Задача 1</string>
+    <string name="task2">Задача 2</string>
+    <string name="task3">Задача 3</string>
+    <string name="task4">Задача 4</string>
+
+    <string name="done">Готово</string>
+    <string name="start">Начать новое</string>
+    <string name="del">Удалить?</string>
+    <string name="yes">Да</string>
+    <string name="no">Отмена</string>
+    <string name="ok">OK</string>
+    <string name="error">Ошибка ввода</string>
+
+    <string name="delQuestion">Текущий результат будет сброшен, а данные стерты.</string>
+    <string name="success">Успех</string>
+    <string name="unsuccess">Вы пропустили более одних суток :(</string>
+    <string name="successComplete">Вы успешно завершили</string>
+    <string name="tasksComplete">Задачи на сегодня выполнены</string>
+    <string name="tasksNoComplete">У вас остались невыполненные задачи</string>
+    <string name="infoNotComplete">Задачи не выполнены</string>
+    <string name="infoComplete">Задачи выполнены</string>
+    <string name="notStart">Нажмите + чтобы начать</string>
+    <string name="hint">Введите количество дней</string>
+    <string name="day">День %1$d/%2$d</string>
+    <string name="dateStart">Дата начала: %1$s</string>
+
+</resources>
