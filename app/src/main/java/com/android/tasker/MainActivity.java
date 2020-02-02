@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
     private Calendar calendar = Calendar.getInstance();
 
+    Challenge challenge;
+
     private int currentDay;
     private int lastDay;
     private String startDate = "";
-
-    //Challenge challenge = new Challenge();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+         challenge = new Challenge(getApplicationContext());
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -115,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
         mFloatingActionButton = findViewById(R.id.floating_action_button);
         mFloatingActionButton.setEnabled(false);
 
-        currentDay = QueryPreferences.getDayQuery(getApplicationContext());
-        lastDay = QueryPreferences.getNumberOfDaysQuery(getApplicationContext());
-        startDate = QueryPreferences.getDateQuery(getApplicationContext());
+        currentDay = challenge.getCurrentDay();
+        lastDay = challenge.getLastDay();
+        startDate = challenge.getStartDate();
 
         if(currentDay == 0) {
             update();
@@ -208,17 +210,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firstRun() {
-
-//        Challenge challenge = new Challenge();
-//        challenge.setCurrentDay(1);
-//        challenge.setLastDay(lastDay);
-//        challenge.setStartDate(new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTime()));
-
         currentDay = 1;
         startDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTime());
-        QueryPreferences.setDayQuery(getApplicationContext(), currentDay);
-        QueryPreferences.setNumberOfDaysQuery(getApplicationContext(), lastDay);
-        QueryPreferences.setDateQuery(getApplicationContext(), startDate);
+        challenge.setCurrentDay(getApplicationContext(), currentDay);
+        challenge.setLastDay(getApplicationContext(), lastDay);
+        challenge.setStartDate(getApplicationContext(), startDate);
         mViewInfo.setText(R.string.infoNotComplete);
         update();
         cancelCheckBoxes();
@@ -228,9 +224,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void stopTasker() {
         currentDay = 0;
-        QueryPreferences.setDayQuery(getApplicationContext(), currentDay);
-        QueryPreferences.setNumberOfDaysQuery(getApplicationContext(), currentDay);
-        QueryPreferences.setDateQuery(getApplicationContext(), "");
+        challenge.setCurrentDay(getApplicationContext(), currentDay);
+        challenge.setLastDay(getApplicationContext(), currentDay);
+        challenge.setStartDate(getApplicationContext(), "");
         mViewInfo.setText("");
         update();
         cancelCheckBoxes();

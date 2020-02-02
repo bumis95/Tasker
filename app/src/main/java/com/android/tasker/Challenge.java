@@ -1,52 +1,41 @@
 package com.android.tasker;
 
+import android.content.Context;
+
 public class Challenge {
+
     private int currentDay;
     private int lastDay;
     private String startDate;
 
-    public Challenge() {
-        currentDay = 0;
-        lastDay = 0;
-        startDate = null;
-    }
-
-    public Challenge(int currentDay, int lastDay, String startDate) {
-        this.currentDay = currentDay;
-        this.lastDay = lastDay;
-        this.startDate = startDate;
+    public Challenge(Context context) {
+        currentDay = QueryPreferences.getDayQuery(context);
+        lastDay = QueryPreferences.getNumberOfDaysQuery(context);
+        startDate = QueryPreferences.getDateQuery(context);
     }
 
     public int getCurrentDay() {
         return currentDay;
     }
 
-    public void setCurrentDay(int currentDay) {
-        this.currentDay = currentDay;
+    public void setCurrentDay(Context context, int currentDay) {
+        QueryPreferences.setDayQuery(context, currentDay);
     }
 
     public int getLastDay() {
         return lastDay;
     }
 
-    public void setLastDay(int lastDay) {
-        this.lastDay = lastDay;
+    public void setLastDay(Context context, int lastDay) {
+        QueryPreferences.setNumberOfDaysQuery(context, lastDay);
     }
 
     public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public void start() {
-
-    }
-
-    public void stop() {
-
+    public void setStartDate(Context context, String startDate) {
+        QueryPreferences.setDateQuery(context, startDate);
     }
 
 }
