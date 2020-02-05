@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView mDate;
     private FloatingActionButton mFloatingActionButton;
 
-    private Calendar calendar = Calendar.getInstance();
-
     Challenge challenge;
 
     private int currentDay;
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         challenge = new Challenge(getApplicationContext());
+        challenge = new Challenge(getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -111,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         mTask2 = findViewById(R.id.chkboxTask2);
         mTask3 = findViewById(R.id.chkboxTask3);
         mTask4 = findViewById(R.id.chkboxTask4);
-
         mDate = findViewById(R.id.viewStartDate);
 
         mFloatingActionButton = findViewById(R.id.floating_action_button);
@@ -211,7 +208,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void firstRun() {
         currentDay = 1;
-        startDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTime());
+        startDate = new SimpleDateFormat("dd.MM.yyyy",
+                Locale.getDefault()).format(DateChecker.calendarNow.getTime());
         challenge.setCurrentDay(getApplicationContext(), currentDay);
         challenge.setLastDay(getApplicationContext(), lastDay);
         challenge.setStartDate(getApplicationContext(), startDate);
@@ -242,31 +240,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkCondition() {
-        String dateNow = //"02.01.20";
-                new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTime());
-        String dateStart = //"31.12.19";
-                QueryPreferences.getDateQuery(getApplicationContext());
-
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        Date dateOne = null;
-        Date dateTwo = null;
-        try {
-            dateOne = format.parse(dateNow);
-            dateTwo = format.parse(dateStart);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Calendar calendarNow = Calendar.getInstance();
-        Calendar calendarStart = Calendar.getInstance();
-        calendarNow.setTime(dateOne);
-        calendarStart.setTime(dateTwo);
-        calendarStart.add(Calendar.DAY_OF_MONTH, currentDay - 1);
-
-        int daysBetween = calendarNow.get(Calendar.DAY_OF_YEAR) - calendarStart.get(Calendar.DAY_OF_YEAR);
-
-        if(daysBetween > 0) {
+        if(DateChecker.check(currentDay, startDate) > 0) {
             stopTasker();
             Toast toast = Toast.makeText(this, R.string.unsuccess, Toast.LENGTH_LONG);
             toast.show();
@@ -274,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             update();
             mViewInfo.setText(R.string.infoComplete);
-            if(calendarNow.equals(calendarStart)) {
+            if(DateChecker.calendarNow.equals(DateChecker.calendarStart)) {
                 mFloatingActionButton.setEnabled(true);
                 mViewInfo.setText(R.string.infoNotComplete);
             }

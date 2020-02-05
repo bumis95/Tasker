@@ -79,7 +79,7 @@
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
         android:src="@drawable/sharp_check_white_48"/>
 </LinearLayout>
