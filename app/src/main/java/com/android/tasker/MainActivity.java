@@ -142,12 +142,7 @@ public class MainActivity extends AppCompatActivity {
                         control(0, 0, "", false);
                         return;
                     }
-                    currentDay++;
-                    QueryPreferences.setDayQuery(getApplicationContext(), currentDay);
-                    mViewInfo.setText(R.string.tasksComplete);
-                    update();
-                    cancelCheckBoxes();
-                    mFloatingActionButton.setEnabled(false);
+                    control(2, lastDay, getString(R.string.tasksComplete), false);
                 }
                 else {
                     Snackbar snackbar = Snackbar.make(
@@ -206,15 +201,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void control(int dayCurrent, int dayLast, String info, boolean b) {
-        if(dayCurrent == 0) {
+    private void control(int i, int dayLast, String info, boolean b) {
+        if(i == 0) {
             currentDay = 0;
             startDate = "";
         }
-        else {
+        else if(i == 1) {
             currentDay = 1;
             startDate = new SimpleDateFormat("dd.MM.yyyy",
                                         Locale.getDefault()).format(DateChecker.calendarNow.getTime());
+        }
+        else {
+            currentDay++;
         }
         challenge.setCurrentDay(getApplicationContext(), currentDay);
         challenge.setLastDay(getApplicationContext(), dayLast);
