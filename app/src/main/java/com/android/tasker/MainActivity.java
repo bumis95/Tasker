@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            stopTasker();
+                            control(0, 0, "", false);
                         }
                     })
                     .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 })
                                 .show();
-                        stopTasker();
+                        control(0, 0, "", false);
                         return;
                     }
                     currentDay++;
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                             num = Integer.parseInt(String.valueOf(taskEditText.getText()).trim());
                             if(num > 0) {
                                 lastDay = num;
-                                firstRun();
+                                control(1, lastDay, getString(R.string.infoNotComplete), true);
                             }
                             else {
                                 Toast toast = Toast.makeText(getApplicationContext(),
@@ -206,29 +206,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void firstRun() {
-        currentDay = 1;
-        startDate = new SimpleDateFormat("dd.MM.yyyy",
-                Locale.getDefault()).format(DateChecker.calendarNow.getTime());
+    private void control(int dayCurrent, int dayLast, String info, boolean b) {
+        if(dayCurrent == 0) {
+            currentDay = 0;
+            startDate = "";
+        }
+        else {
+            currentDay = 1;
+            startDate = new SimpleDateFormat("dd.MM.yyyy",
+                                        Locale.getDefault()).format(DateChecker.calendarNow.getTime());
+        }
         challenge.setCurrentDay(getApplicationContext(), currentDay);
-        challenge.setLastDay(getApplicationContext(), lastDay);
+        challenge.setLastDay(getApplicationContext(), dayLast);
         challenge.setStartDate(getApplicationContext(), startDate);
-        mViewInfo.setText(R.string.infoNotComplete);
+        mViewInfo.setText(info);
         update();
         cancelCheckBoxes();
-        mFloatingActionButton.setEnabled(true);
-        invalidateOptionsMenu();
-    }
-
-    private void stopTasker() {
-        currentDay = 0;
-        challenge.setCurrentDay(getApplicationContext(), currentDay);
-        challenge.setLastDay(getApplicationContext(), currentDay);
-        challenge.setStartDate(getApplicationContext(), "");
-        mViewInfo.setText("");
-        update();
-        cancelCheckBoxes();
-        mFloatingActionButton.setEnabled(false);
+        mFloatingActionButton.setEnabled(b);
         invalidateOptionsMenu();
     }
 
@@ -241,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkCondition() {
         if(DateChecker.check(currentDay, startDate) > 0) {
-            stopTasker();
+            control(0, 0, "", false);
             Toast toast = Toast.makeText(this, R.string.unsuccess, Toast.LENGTH_LONG);
             toast.show();
         }
