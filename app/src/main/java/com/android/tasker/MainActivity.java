@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(startDate != "") {
+        if(startDate.equals(""))  {
             mMenuItem.setTitle(R.string.del);
             mMenuItem.setIcon(R.drawable.sharp_delete_forever_white_48);
         }
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void menuClick(MenuItem item) {
-        if(startDate == "") {
+        if(startDate.equals(""))  {
             showAddDaysDialog(MainActivity.this);
         }
         else {
@@ -120,11 +120,11 @@ public class MainActivity extends AppCompatActivity {
         startDate = challenge.getStartDate();
         lastCompleteDate = challenge.getLastCompleteDate();
 
-        if(startDate == "") {
+        if(startDate.equals("")) {
             update();
         }
         else {
-            currentDay = DateChecker.getCurrentDay(startDate);
+            currentDay = DateChecker.getDateDifference(startDate) + 1;
             checkCondition();
         }
 
@@ -236,8 +236,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkCondition() {
-        if(lastCompleteDate == "") {
-            if(DateChecker.getDifDay(startDate) > 0) {
+        if(lastCompleteDate.equals("")) {
+            if(DateChecker.getDateDifference(startDate) > 0) {
                 control(0, 0, "", false);
                 Toast toast = Toast.makeText(this, R.string.unsuccess, Toast.LENGTH_LONG);
                 toast.show();
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else {
-            int i = DateChecker.check(lastCompleteDate);
+            int i = DateChecker.getDateDifference(lastCompleteDate);
             if(i > 1) {
                 control(0, 0, "", false);
                 Toast toast = Toast.makeText(this, R.string.unsuccess, Toast.LENGTH_LONG);
@@ -269,15 +269,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void update() {
-        if (startDate == "") {
+        if(startDate.equals(""))  {
             mWhatDayToday.setText(R.string.notStart);
             mDate.setText("");
         }
         else {
-            currentDay = DateChecker.getCurrentDay(startDate);
+            currentDay = DateChecker.getDateDifference(startDate) + 1;
             mWhatDayToday.setText(getString(R.string.day, currentDay, lastDay));
             mDate.setText(getString(R.string.dateStart, startDate));
         }
     }
-
 }
