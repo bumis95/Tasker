@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(startDate.equals(""))  {
+        if(!startDate.equals(""))  {
             mMenuItem.setTitle(R.string.del);
             mMenuItem.setIcon(R.drawable.sharp_delete_forever_white_48);
         }
