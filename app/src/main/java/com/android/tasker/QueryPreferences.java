@@ -5,21 +5,9 @@ import android.preference.PreferenceManager;
 
 public class QueryPreferences {
 
-    private static final String PREF_CURRENT_DAY_QUERY = "currentDayQuery";
     private static final String PREF_NUMBER_OF_DAYS_QUERY = "numberOfDaysQuery";
-    private static final String PREF_DATE_QUERY = "startDateQuery";
-
-    public static int getDayQuery(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getInt(PREF_CURRENT_DAY_QUERY, 0);
-    }
-
-    public static void setDayQuery(Context context, int query) {
-        PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putInt(PREF_CURRENT_DAY_QUERY, query)
-                .apply();
-    }
+    private static final String PREF_START_DATE_QUERY = "startDateQuery";
+    private static final String PREF_LAST_COMPLETE_DATE_QUERY = "lastCompleteDateQuery";
 
     public static int getNumberOfDaysQuery(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
@@ -33,15 +21,27 @@ public class QueryPreferences {
                 .apply();
     }
 
-    public static String getDateQuery(Context context) {
+    public static String getStartDateQuery(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(PREF_DATE_QUERY, "");
+                .getString(PREF_START_DATE_QUERY, "");
     }
 
-    public static void setDateQuery(Context context, String query) {
+    public static void setStartDateQuery(Context context, String query) {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
-                .putString(PREF_DATE_QUERY, query)
+                .putString(PREF_START_DATE_QUERY, query)
+                .apply();
+    }
+
+    public static String getLastCompleteDateQuery(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(PREF_LAST_COMPLETE_DATE_QUERY, "");
+    }
+
+    public static void setLastCompleteDateQuery(Context context, String query) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(PREF_LAST_COMPLETE_DATE_QUERY, query)
                 .apply();
     }
 

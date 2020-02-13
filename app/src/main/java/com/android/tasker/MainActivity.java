@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentDay;
     private int lastDay;
     private String startDate = "";
+    private String lastCompleteDate = "";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(currentDay != 0) {
+        if(!startDate.equals(""))  {
             mMenuItem.setTitle(R.string.del);
             mMenuItem.setIcon(R.drawable.sharp_delete_forever_white_48);
         }
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void menuClick(MenuItem item) {
-        if(currentDay == 0) {
+        if(startDate.equals(""))  {
             showAddDaysDialog(MainActivity.this);
         }
         else {
@@ -114,15 +116,17 @@ public class MainActivity extends AppCompatActivity {
         mFloatingActionButton = findViewById(R.id.floating_action_button);
         mFloatingActionButton.setEnabled(false);
 
-        currentDay = challenge.getCurrentDay();
         lastDay = challenge.getLastDay();
         startDate = challenge.getStartDate();
+        lastCompleteDate = challenge.getLastCompleteDate();
 
-        if(currentDay == 0) {
+        if(startDate.equals("")) {
             update();
         }
-        else
+        else {
+            currentDay = DateChecker.getDateDifference(startDate) + 1;
             checkCondition();
+        }
 
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,20 +207,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void control(int i, int dayLast, String info, boolean b) {
         if(i == 0) {
-            currentDay = 0;
             startDate = "";
+            lastCompleteDate = "";
         }
         else if(i == 1) {
-            currentDay = 1;
             startDate = new SimpleDateFormat("dd.MM.yyyy",
-                                        Locale.getDefault()).format(DateChecker.calendarNow.getTime());
+                    Locale.getDefault()).format(DateChecker.calendarNow.getTime());
         }
-        else {
-            currentDay++;
+        else if(i == 2) {
+            lastCompleteDate = new SimpleDateFormat("dd.MM.yyyy",
+                    Locale.getDefault()).format(DateChecker.calendarNow.getTime());
         }
-        challenge.setCurrentDay(getApplicationContext(), currentDay);
         challenge.setLastDay(getApplicationContext(), dayLast);
         challenge.setStartDate(getApplicationContext(), startDate);
+        challenge.setLastCompleteDate(getApplicationContext(), lastCompleteDate);
         mViewInfo.setText(info);
         update();
         cancelCheckBoxes();
@@ -232,15 +236,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkCondition() {
-        if(DateChecker.check(currentDay, startDate) > 0) {
-            control(0, 0, "", false);
-            Toast toast = Toast.makeText(this, R.string.unsuccess, Toast.LENGTH_LONG);
-            toast.show();
+        if(lastCompleteDate.equals("")) {
+            if(DateChecker.getDateDifference(startDate) > 0) {
+                control(0, 0, "", false);
+                Toast toast = Toast.makeText(this, R.string.unsuccess, Toast.LENGTH_LONG);
+                toast.show();
+            }
+            else {
+                update();
+                mFloatingActionButton.setEnabled(true);
+                mViewInfo.setText(R.string.infoNotComplete);
+            }
         }
         else {
-            update();
-            mViewInfo.setText(R.string.infoComplete);
-            if(DateChecker.calendarNow.equals(DateChecker.calendarStart)) {
+            int i = DateChecker.getDateDifference(lastCompleteDate);
+            if(i > 1) {
+                control(0, 0, "", false);
+                Toast toast = Toast.makeText(this, R.string.unsuccess, Toast.LENGTH_LONG);
+                toast.show();
+            }
+            else if(i == 0) {
+                update();
+                mFloatingActionButton.setEnabled(false);
+                mViewInfo.setText(R.string.infoComplete);
+            }
+            else {
+                update();
                 mFloatingActionButton.setEnabled(true);
                 mViewInfo.setText(R.string.infoNotComplete);
             }
@@ -248,14 +269,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void update() {
-        if (currentDay == 0) {
+        if(startDate.equals(""))  {
             mWhatDayToday.setText(R.string.notStart);
             mDate.setText("");
         }
-        else if(currentDay <= lastDay) {
+        else {
+            currentDay = DateChecker.getDateDifference(startDate) + 1;
             mWhatDayToday.setText(getString(R.string.day, currentDay, lastDay));
             mDate.setText(getString(R.string.dateStart, startDate));
         }
     }
-
 }

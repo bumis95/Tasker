@@ -4,22 +4,14 @@ import android.content.Context;
 
 public class Challenge {
 
-    private int currentDay;
     private int lastDay;
     private String startDate;
+    private String lastCompleteDate;
 
     public Challenge(Context context) {
-        currentDay = QueryPreferences.getDayQuery(context);
         lastDay = QueryPreferences.getNumberOfDaysQuery(context);
-        startDate = QueryPreferences.getDateQuery(context);
-    }
-
-    public int getCurrentDay() {
-        return currentDay;
-    }
-
-    public void setCurrentDay(Context context, int currentDay) {
-        QueryPreferences.setDayQuery(context, currentDay);
+        startDate = QueryPreferences.getStartDateQuery(context);
+        lastCompleteDate = QueryPreferences.getLastCompleteDateQuery(context);
     }
 
     public int getLastDay() {
@@ -35,7 +27,15 @@ public class Challenge {
     }
 
     public void setStartDate(Context context, String startDate) {
-        QueryPreferences.setDateQuery(context, startDate);
+        QueryPreferences.setStartDateQuery(context, startDate);
+    }
+
+    public String getLastCompleteDate() {
+        return lastCompleteDate;
+    }
+
+    public void setLastCompleteDate(Context context, String lastCompleteDate) {
+        QueryPreferences.setLastCompleteDateQuery(context, lastCompleteDate);
     }
 
 }
